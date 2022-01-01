@@ -25,88 +25,27 @@
     </nav>
 
 
-    <div class="main-content">
+    <div id="main-content">
         <div class="card text-center m-3">
             <div class="card-header">
-              ELT Decoder
+                ELT Decoder
             </div>
-            <div class="card-body">
-                <form class="m-3">
-                    <div class="mb-3 input-group">
-                        <span class="input-group-text">Bit String</span>
-                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                        <button class="btn btn-primary" type="submit">Decode</button>
-                    </div>
-                </form>
-            </div>
-          </div>
-
-        <div class="card-content d-flex flex-wrap justify-content-center">
-        <div class="card d-inline-block m-3 h-100" style="width: 500px;">
-            <div class="row g-0">
-                <div class="col-md-4 d-flex justify-content-center border-end">
-                    <div class="align-self-center">
-                        <i class="fas fa-check-circle icon text-success"></i>
-                    </div>
-                </div>
-                <div class="col-md-8">
-                    <div class="card-header">Message Format</div>
-                    <div class="card-body">
-                        <h5 class="card-title">Long Message Format</h5>
-                        <p class="card-text"><small class="text-muted">Bits 1-15</small></p>
-                    </div>
-                    <div class="card-footer text-muted">
-                        1010011110
-                      </div>
+            <div class="card-body m-3">
+                <div class="input-group">
+                    <span class="input-group-text">Bit String</span>
+                    <input type="text" class="form-control" id="bitstring">
+                    <button class="btn btn-primary" onclick="decode_bits()">Decode</button>
                 </div>
             </div>
         </div>
 
-        <div class="card d-inline-block m-3 h-100" style="width: 500px;">
-            <div class="row g-0">
-                <div class="col-md-4 d-flex justify-content-center border-end">
-                    <div class="align-self-center">
-                        <i class="fas fa-times-circle icon text-danger"></i>
-                    </div>
-                </div>
-                <div class="col-md-8">
-                    <div class="card-header">Protocol Format</div>
-                    <div class="card-body">
-                        <h5 class="card-title">Protocol</h5>
-                        <p class="card-text"><small class="text-muted">Bits 1-15</small></p>
-                    </div>
-                    <div class="card-footer text-muted">
-                        1010011110
-                      </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card d-inline-block m-3 h-100" style="width: 500px;">
-            <div class="row g-0">
-                <div class="col-md-4 d-flex justify-content-center border-end">
-                    <div class="align-self-center">
-                        <i class="fas fa-exclamation-circle icon text-warning"></i>
-                    </div>
-                </div>
-                <div class="col-md-8">
-                    <div class="card-header">Message Format</div>
-                    <div class="card-body">
-                        <h5 class="card-title">Long Message Format</h5>
-                        <p class="card-text"><small class="text-muted">Bits 1-15</small></p>
-                    </div>
-                    <div class="card-footer text-muted">
-                        1010011110
-                      </div>
-                </div>
-            </div>
-        </div>
-    </div>
+        <div id="info-content" class="d-flex flex-wrap justify-content-center"></div>
 
     </div>
 
     <script type='text/javascript' src='js/bootstrap.min.js'></script>
-    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/bit_patterns.js"></script>
+    <script type="text/javascript" src="js/decoding.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,37 @@
+https://www.406registration.com/countriessupported.aspx?CultureCode=en-US
+
+var tr_content = document.getElementsByTagName("table")[0].getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+
+var countries = [];
+var codes = [];
+
+var countries_string = "";
+var codes_string = "";
+
+var all_string = "";
+
+for(var i=0; i<tr_content.length; i++) {
+  countries.push(tr_content[i].getElementsByTagName("td")[0].textContent)
+  codes.push(parseInt(tr_content[i].getElementsByTagName("td")[1].textContent).toString(2))
+}
+
+for(var i=0; i<countries.length; i++) {
+	countries_string += countries[i] + "\n"
+}
+
+for(var i=0; i<codes.length; i++) {
+  for(var j=codes[i].length; j < 10; j++) {
+    codes_string += "0";
+  }
+	codes_string += codes[i] + "\n"
+}
+
+for(var i=0; i<countries.length; i++) {
+  all_string += "\""
+  for(var j=codes[i].length; j < 10; j++) {
+    all_string += "0";
+  }
+	all_string += codes[i] + "\": \"" + countries[i] + "\",\n"
+}
+
+console.log(all_string)
