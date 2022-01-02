@@ -337,7 +337,19 @@ var options_protocol_code = {
 }
 
 var options_icons = {
-    "valid": "fa-check-circle text-success",
-    "warning": "fa-exclamation-circle text-warning",
-    "invalid": "fa-times-circle text-danger",
+    "valid": {
+        icon: "fa-check-circle text-success",
+        badge: "bg-success",
+        text: "Valid"
+    },
+    "warning": {
+        icon: "fa-exclamation-circle text-warning",
+        badge: "bg-warning",
+        text: "Warning"
+    },
+    "invalid": {
+        icon: "fa-times-circle text-danger",
+        badge: "bg-danger",
+        text: "Invalid"
+    }
 }

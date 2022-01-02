@@ -118,18 +118,19 @@ function create_card(element, section) {
     element.innerHTML += 
     '<div class="card d-inline-block m-3 h-100" style="width: 500px;">' +
         '<div class="row g-0">' + 
-            '<div class="col-md-4 d-flex justify-content-center border-end">' + 
-                '<div class="align-self-center">' + 
-                    '<i class="fas icon ' + section["icon"]  + '"></i>' + 
+            '<div class="col-md-3 d-flex justify-content-center border-end">' + 
+                '<div class="align-self-center d-flex flex-column">' + 
+                    '<i class="fas icon ' + section["icon"]["icon"]  + '"></i>' + 
+                    '<span class="badge mt-3 ' + section["icon"]["badge"]  + '">' + section["icon"]["text"]  + '</span>' +
                 '</div>' + 
             '</div>' + 
-        '<div class="col-md-8">' + 
+        '<div class="col-md-9">' + 
             '<div class="card-header fw-bold">' + section["name"] + '</div>' + 
                 '<div class="card-body">' + 
                     '<h5 class="card-title">' + (section['option'] ? section['option'] : 'Nothing') + '</h5>' + 
                     '<p class="card-text"><small class="text-muted">' + section["fromTo"] + '</small></p>' + 
                 '</div>' + 
-                '<div class="card-footer text-muted">' + section["bits"] + '</div>' + 
+                '<div class="card-footer text-muted">Bit Pattern: ' + section["bits"] + '</div>' + 
             '</div>' + 
         '</div>' + 
     '</div>' 
