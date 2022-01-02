@@ -1,3 +1,5 @@
+var timeouts = [];
+
 var bit_template = {
     bit_sync: {
         from: 1,
@@ -86,11 +88,18 @@ var assigned_bits = {
 }
 
 function decode_bits() {
+    for(var timeout of timeouts) {
+        clearTimeout(timeout)
+    }
+    timeouts = []
+
     var content = document.getElementById("info-content");
     content.innerHTML = "";
 
     var bitString = document.getElementById('bitstring').value
     bitString = bitString.replace(/\s+/g, '');
+    var counter = 0;
+
     for(var key in bit_template) {
         assigned_bits[key]["icon"] = options_icons["valid"]
         assigned_bits[key]["bits"] = bitString.substring(bit_template[key].from - 1, bit_template[key].to)
@@ -102,8 +111,8 @@ function decode_bits() {
                 assigned_bits[key]["icon"] = options_icons["invalid"]
             }
         }
-        
-        create_card(content, assigned_bits[key])
+        create_card(content, assigned_bits[key], counter*150)
+        counter++;
     }
 }
 
@@ -114,24 +123,30 @@ function check_for_option(bitString, options) {
     return null
 }
 
-function create_card(element, section) {
-    element.innerHTML += 
-    '<div class="card d-inline-block m-3 h-100" style="width: 500px;">' +
-        '<div class="row g-0">' + 
-            '<div class="col-md-3 d-flex justify-content-center border-end">' + 
-                '<div class="align-self-center d-flex flex-column">' + 
-                    '<i class="fas icon ' + section["icon"]["icon"]  + '"></i>' + 
-                    '<span class="badge mt-3 ' + section["icon"]["badge"]  + '">' + section["icon"]["text"]  + '</span>' +
+function create_card(element, section, timer) {
+
+    var newDiv = document.createElement("div");
+    newDiv.classList.add("bit-content-container", "card", "d-inline-block", "m-3", "h-100", "border-0")
+    element.appendChild(newDiv)
+
+    var timeout = setTimeout(() => {
+        newDiv.innerHTML =
+            '<div class="bit-content shadow position-relative row g-0">' + 
+                '<div class="col-md-3 d-flex justify-content-center shadow">' + 
+                    '<div class="align-self-center d-flex flex-column">' + 
+                        '<i class="fas icon ' + section["icon"]["icon"]  + '"></i>' + 
+                        '<span class="badge mt-3 ' + section["icon"]["badge"]  + '">' + section["icon"]["text"]  + '</span>' +
+                    '</div>' + 
                 '</div>' + 
-            '</div>' + 
-        '<div class="col-md-9">' + 
-            '<div class="card-header fw-bold">' + section["name"] + '</div>' + 
-                '<div class="card-body">' + 
-                    '<h5 class="card-title">' + (section['option'] ? section['option'] : 'Nothing') + '</h5>' + 
-                    '<p class="card-text"><small class="text-muted">' + section["fromTo"] + '</small></p>' + 
+            '<div class="col-md-9">' + 
+                '<div class="card-header fw-bold">' + section["name"] + '</div>' + 
+                    '<div class="card-body">' + 
+                        '<h5 class="card-title">' + (section['option'] ? section['option'] : 'Nothing') + '</h5>' + 
+                        '<p class="card-text"><small class="text-muted">' + section["fromTo"] + '</small></p>' + 
+                    '</div>' + 
+                    '<div class="card-footer text-muted">Bit Pattern: ' + section["bits"] + '</div>' + 
                 '</div>' + 
-                '<div class="card-footer text-muted">Bit Pattern: ' + section["bits"] + '</div>' + 
-            '</div>' + 
-        '</div>' + 
-    '</div>' 
+            '</div>'
+    }, timer);
+    timeouts.push(timeout);
 }
