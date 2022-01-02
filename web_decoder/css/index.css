@@ -21,3 +21,23 @@
     from { opacity: 0; top:80px;}
     to   { opacity: 1; top:0px;}
 }
+
+.round-start {
+    border-radius: 10px 0px 0px 10px !important;
+}
+
+.round-end {
+    border-radius: 0px 10px 10px 0px !important;
+}
+
+.round-top-right {
+    border-top-right-radius: 10px !important;
+}
+
+.round-bottom-right {
+    border-bottom-right-radius: 10px !important;
+}
+
+.round {
+    border-radius: 10px !important;
+}

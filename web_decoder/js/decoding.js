@@ -131,20 +131,20 @@ function create_card(element, section, timer) {
 
     var timeout = setTimeout(() => {
         newDiv.innerHTML =
-            '<div class="bit-content shadow position-relative row g-0">' + 
-                '<div class="col-md-3 d-flex justify-content-center shadow">' + 
+            '<div class="bit-content shadow position-relative row g-0 round">' + 
+                '<div class="col-3 d-flex justify-content-center shadow round-start">' + 
                     '<div class="align-self-center d-flex flex-column">' + 
                         '<i class="fas icon ' + section["icon"]["icon"]  + '"></i>' + 
                         '<span class="badge mt-3 ' + section["icon"]["badge"]  + '">' + section["icon"]["text"]  + '</span>' +
                     '</div>' + 
                 '</div>' + 
-            '<div class="col-md-9">' + 
-                '<div class="card-header fw-bold">' + section["name"] + '</div>' + 
+            '<div class="col-9">' + 
+                '<div class="card-header fw-bold round-top-right">' + section["name"] + '</div>' + 
                     '<div class="card-body">' + 
                         '<h5 class="card-title">' + (section['option'] ? section['option'] : 'Nothing') + '</h5>' + 
                         '<p class="card-text"><small class="text-muted">' + section["fromTo"] + '</small></p>' + 
                     '</div>' + 
-                    '<div class="card-footer text-muted">Bit Pattern: ' + section["bits"] + '</div>' + 
+                    '<div class="card-footer text-muted round-bottom-right">Bit Pattern: ' + section["bits"] + '</div>' + 
                 '</div>' + 
             '</div>'
     }, timer);
