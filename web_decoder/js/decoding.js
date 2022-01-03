@@ -175,7 +175,7 @@ function decode_bits() {
     var bitString = document.getElementById('bitstring').value
     bitString = bitString.replace(/\s+/g, '');
     document.getElementById('bitstring').value = bitString;
-    var counter = 0;
+    var counter = 1;
 
     var content = document.getElementById("info-content");
 
@@ -188,7 +188,21 @@ function decode_bits() {
         return;
     }
 
-    content.innerHTML = "";
+    var hexString = bitString.substring(25, 64) + "011111111101111111111"
+    var hexDecoded = ""
+    for(var i = 0; i < hexString.length; i+=4) {
+        if(i%20 == 0) hexDecoded += " "
+        hexDecoded += (parseInt(hexString.substring(i, i+4), 2).toString(16)).toUpperCase()
+    }
+    hexDecoded.trim()
+
+    content.innerHTML =
+        '<div class="bit-content d-flex flex-wrap justify-content-center position-relative w-100">' +
+            '<div class="hint text-center mx-5 mb-3">' +
+                '<h1 class="display-6 fs-2 fw-bold">Beacon Identification</h1>' +
+                '<h1 class="display-6 fs-3">' + hexDecoded + '</h1>' +
+            '</div>' +
+        '</div>'
 
     for(var key in bit_template) {
         assigned_bits[key]["icon"] = options_icons["valid"]
