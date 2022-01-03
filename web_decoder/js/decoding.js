@@ -93,12 +93,16 @@ function decode_bits() {
     }
     timeouts = []
 
+    var main_content = document.getElementById("main-container");
+    main_content.classList.remove("pre-container")
+    main_content.classList.add("animation-container")
+
     var content = document.getElementById("info-content");
     content.innerHTML = "";
 
     var bitString = document.getElementById('bitstring').value
     bitString = bitString.replace(/\s+/g, '');
-    var counter = 0;
+    var counter = 2;
 
     for(var key in bit_template) {
         assigned_bits[key]["icon"] = options_icons["valid"]
@@ -158,4 +162,8 @@ function empty_input() {
     '<div class="hint text-center mx-5 bit-content position-relative">' + 
         '<h1 class="display-6 fs-2">Enter a Bit String and hit <span class="fw-bold">Decode</span> to decode Standard Location Protocols</h1>' + 
     '</div>'
+
+    var main_content = document.getElementById("main-container");
+    main_content.classList.remove("animation-container")
+    main_content.classList.add("pre-container")
 }

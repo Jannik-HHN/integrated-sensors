@@ -1,3 +1,7 @@
+html, body {
+    height: 100%;
+}
+
 .icon {
     /* color: rgb(81, 190, 81); */
     font-size: 70px;
@@ -44,4 +48,41 @@
 
 .hint {
     max-width: 700px;
+}
+
+.pre-container {
+    -webkit-animation: switchBack 0.5s;
+            animation: switchBack 0.5s;
+            min-height: 100vh;
+}
+
+.animation-container {
+    -webkit-animation: switch 0.5s;
+            animation: switch 0.5s;
+
+
+}
+
+@keyframes switch {
+    from { min-height: 100vh;}
+    to   { min-height: 0vh;}
+}
+
+@-webkit-keyframes switch {
+    from { min-height: 100vh;}
+    to   { min-height: 0vh;}
+}
+
+@keyframes switchBack {
+    from { min-height: 0vh;}
+    to   { min-height: 100vh;}
+}
+
+@-webkit-keyframes switchBack {
+    from { min-height: 0vh;}
+    to   { min-height: 100vh;}
+}
+
+#main-content {
+    min-width: 0;
 }
