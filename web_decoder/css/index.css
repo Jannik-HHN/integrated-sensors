@@ -5,6 +5,8 @@
 
 .bit-content-container {
     width: 500px;
+    transition: transform 0.25s;
+    cursor: pointer;
 }
 
 .bit-content {
@@ -44,4 +46,9 @@
 
 .hint {
     max-width: 700px;
+}
+
+.bit-content-container:hover {
+    transform: scale(1.05, 1.05);
+    transition: transform 0.25s;
 }

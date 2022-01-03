@@ -174,6 +174,7 @@ function decode_bits() {
 
     var bitString = document.getElementById('bitstring').value
     bitString = bitString.replace(/\s+/g, '');
+    document.getElementById('bitstring').value = bitString;
     var counter = 0;
 
     var content = document.getElementById("info-content");
@@ -206,7 +207,7 @@ function decode_bits() {
                 assigned_bits[key]["icon"] = options_icons["warning"]
             }
         }
-        create_card(content, assigned_bits[key], counter*150)
+        create_card(content, assigned_bits[key], key, counter*150)
         counter++;
     }
 }
@@ -218,7 +219,12 @@ function check_for_option(bitString, options) {
     return null
 }
 
-function create_card(element, section, timer) {
+function select_bits(from, to) {
+    document.getElementById('bitstring').focus();
+    document.getElementById('bitstring').setSelectionRange(from, to);
+}
+
+function create_card(element, section, key, timer) {
 
     var newDiv = document.createElement("div");
     newDiv.classList.add("bit-content-container", "card", "d-inline-block", "m-3", "h-100", "border-0")
@@ -226,7 +232,7 @@ function create_card(element, section, timer) {
 
     var timeout = setTimeout(() => {
         newDiv.innerHTML =
-            '<div class="bit-content shadow position-relative row g-0 round">' + 
+            '<div class="bit-content shadow position-relative row g-0 round" onclick="select_bits(' + (bit_template[key].from - 1) + ',' + bit_template[key].to + ')">' + 
                 '<div class="col-3 d-flex justify-content-center shadow round-start">' + 
                     '<div class="align-self-center d-flex flex-column">' + 
                         '<i class="fas icon ' + section["icon"]["icon"]  + '"></i>' + 
@@ -234,9 +240,9 @@ function create_card(element, section, timer) {
                     '</div>' + 
                 '</div>' + 
             '<div class="col-9">' + 
-                '<div class="card-header fw-bold round-top-right">' + section["name"] + '</div>' + 
+                '<div class="card-header fw-bold round-top-right text-center ' + section["icon"]["badge"]  + '">' + section["name"] + '</div>' + 
                     '<div class="card-body">' + 
-                        '<h5 class="card-title">' + (section['option'] ? section['option'] : 'Valid') + '</h5>' + 
+                        '<h5 class="card-title fw-light">' + (section['option'] ? section['option'] : 'Valid') + '</h5>' + 
                         '<p class="card-text"><small class="text-muted">' + section["fromTo"] + '</small></p>' + 
                     '</div>' + 
                     '<div class="card-footer text-muted round-bottom-right">Bit Pattern: ' + section["bits"] + '</div>' + 
