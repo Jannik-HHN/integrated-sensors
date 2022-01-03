@@ -16,16 +16,6 @@ var options_protocol_type = {
     "0": "Standard Location Protocol"
 }
 
-var options_protocol_code = {
-    "0010": "EPIRB - MMSI/Location Protocol",
-    "0011": "ELT - 24-bit Address/Location Protocol",
-    "0100": "Serial Location Protocol (ELT-serial)",
-    "0101": "Serial Location Protocol (ELT-aircraft operator designator)",
-    "0110": "Serial Location Protocol (EPIRB-serial)",
-    "0111": "Serial Location Protocol (PLB-serial)",
-    "1100": "Ship Security"
-}
-
 var options_country_code = {
     "0011001001": "ALBANIA",
     "0011001010": "ANDORRA",
@@ -321,6 +311,46 @@ var options_country_code = {
     "1100000111": "VENEZUELA"
 }
 
+var options_protocol_code = {
+    //"0010": "EPIRB - MMSI/Location Protocol",
+    //"0011": "ELT - 24-bit Address/Location Protocol",
+    "0100": "Serial Location Protocol (ELT-serial)",
+    //"0101": "Serial Location Protocol (ELT-aircraft operator designator)",
+    "0110": "Serial Location Protocol (EPIRB-serial)",
+    "0111": "Serial Location Protocol (PLB-serial)",
+    //"1100": "Ship Security"
+}
+
+// Position Data 15min Res (65-85) - 21 Bits
+
+
+// First BCH Code (86-106) - 21 Bits
+
+
+// Supplementary Data (107-112) - 6 Bits
+
+var options_fixed_bits = {
+    "1101": "Valid"
+}
+
+var options_source_of_position = {      // Bit 111
+    "0": "External Navigation Device",
+    "1": "Internal Navigation Device"
+}
+
+var options_auxiliary_radio_locating_device_code = {  // Bit 112
+    "0": "Not included in Beacon",
+    "1": "Included in Beacon"
+}
+
+// Position Data 4sec Res (113-132) - 20 Bits
+
+
+// Second BCH Code (133-144) - 12 Bits
+
+
+//
+
 var options_icons = {
     "valid": {
         icon: "fa-check-circle text-success",
@@ -336,5 +366,15 @@ var options_icons = {
         icon: "fa-times-circle text-danger",
         badge: "bg-danger",
         text: "Invalid"
+    }
+}
+
+var convert_bits = function bits_to_number(bit_pattern) {
+    return parseInt(bit_pattern, 2)
+}
+
+var calculate_position = function bits_to_position(bit_pattern, direction, default_value) {
+    if(bit_pattern == default_value) {
+        return "Default Position"
     }
 }
