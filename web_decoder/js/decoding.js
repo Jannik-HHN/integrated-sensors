@@ -153,4 +153,9 @@ function create_card(element, section, timer) {
 
 function empty_input() {
     document.getElementById('bitstring').value = "";
+    var content = document.getElementById("info-content");
+    content.innerHTML = 
+    '<div class="hint text-center mx-5 bit-content position-relative">' + 
+        '<h1 class="display-6 fs-2">Enter a Bit String and hit <span class="fw-bold">Decode</span> to decode Standard Location Protocols</h1>' + 
+    '</div>'
 }

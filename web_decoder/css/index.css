@@ -41,3 +41,7 @@
 .round {
     border-radius: 10px !important;
 }
+
+.hint {
+    max-width: 700px;
+}
