@@ -1,5 +1,5 @@
 var options_bit_sync = {
-    "111111111111111": "Correct"
+    "111111111111111": "Valid"
 }
 
 var options_frame_sync = {
@@ -13,28 +13,17 @@ var options_format_flag = {
 }
 
 var options_protocol_type = {
-    "01": "User Protocol",
-    "10": "Standard or National Location Protocol",
-    "11": "User or User-Location Protocol"
+    "0": "Standard Location Protocol"
 }
 
 var options_protocol_code = {
     "0010": "EPIRB - MMSI/Location Protocol",
     "0011": "ELT - 24-bit Address/Location Protocol",
-    "0100": "Serial Location Protocol | ELT-serial",
-    "0101": "Serial Location Protocol | ELT-aircraft operator designator",
-    "0110": "Serial Location Protocol | EPIRB-serial",
-    "0111": "Serial Location Protocol | PLB-serial",
-    "1100": "Ship Security",
-    "1000": "National Location Protocol - ELT",
-    "1001": "National Location Protocol - Spare",
-    "1010": "National Location Protocol - EPIRB",
-    "1011": "National Location Protocol - PLB",
-    "1110": "Standard Test Location Protocol",
-    "1111": "National Test Location Protocol",
-    "0000": "Reserved (orbitography)",
-    "0001": "Reserved (orbitography)",
-    "1101": "Spare",
+    "0100": "Serial Location Protocol (ELT-serial)",
+    "0101": "Serial Location Protocol (ELT-aircraft operator designator)",
+    "0110": "Serial Location Protocol (EPIRB-serial)",
+    "0111": "Serial Location Protocol (PLB-serial)",
+    "1100": "Ship Security"
 }
 
 var options_country_code = {
@@ -330,10 +319,6 @@ var options_country_code = {
     "1011111101": "SURINAME",
     "1100000010": "URUGUAY",
     "1100000111": "VENEZUELA"
-}
-
-var options_protocol_code = {
-    "111111111111111": "Correct"
 }
 
 var options_icons = {

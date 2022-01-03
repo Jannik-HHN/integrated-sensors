@@ -18,7 +18,8 @@ var bit_template = {
     },
     protocol_flag: {
         from: 26,
-        to: 26
+        to: 26,
+        options: options_protocol_type
     },
     country_code: {
         from: 27,
@@ -27,7 +28,8 @@ var bit_template = {
     },
     protocol_code: {
         from: 37,
-        to: 40
+        to: 40,
+        options: options_protocol_code
     },
     other_bits: {
         from: 38,
@@ -72,7 +74,7 @@ var assigned_bits = {
         icon: ""
     },
     protocol_code: {
-        name: "Protocol",
+        name: "Protocol Code",
         bits: "",
         fromTo: "Bits 37 - 40",
         option: "",
@@ -93,12 +95,22 @@ function decode_bits() {
     }
     timeouts = []
 
-    var content = document.getElementById("info-content");
-    content.innerHTML = "";
-
     var bitString = document.getElementById('bitstring').value
     bitString = bitString.replace(/\s+/g, '');
     var counter = 0;
+
+    var content = document.getElementById("info-content");
+
+    if(bitString.length != 144 || bitString.charAt(25) != "0" || check_for_option(bitString.substring(bit_template["protocol_code"].from - 1, bit_template["protocol_code"].to), bit_template["protocol_code"]["options"]) == null) {
+        content.innerHTML =
+        '<div class="hint text-center mx-5 bit-content position-relative text-danger">' + 
+            '<h1 class="display-6"><span class="fw-bold">Uh oh...</span></h1>' + 
+            '<h1 class="display-6 fs-2">It looks like this Protocol is <span class="fw-bold">not supported</span>. The ELT Decoder only supports Standard Location Protocols.</h1>'
+        '</div>'
+        return;
+    }
+
+    content.innerHTML = "";
 
     for(var key in bit_template) {
         assigned_bits[key]["icon"] = options_icons["valid"]
