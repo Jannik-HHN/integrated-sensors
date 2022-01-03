@@ -26,18 +26,22 @@
 
 
     <div id="main-content">
-        <div class="card text-center m-3">
-            <div class="card-header">
-                ELT Decoder
+        <div class="text-center mt-4">
+            <div class="d-flex justify-content-center">
+                <img src="img/signal.png" alt="Logo" width="70" height="70" class="align-self-center me-4">
+                <h1 class="display-3 fw-bold align-self-center">ELT Decoder</h1>
             </div>
-            <div class="card-body m-3">
-                <div class="input-group">
-                    <span class="input-group-text">Bit String</span>
-                    <input type="text" class="form-control" id="bitstring">
-                    <button class="btn btn-primary" onclick="decode_bits()">Decode</button>
-                </div>
-            </div>
+            <h1 class="display-5">Standard Location Protocols</h1>
         </div>
+
+        <div class="m-5">
+        <div class="input-group">
+            <span class="input-group-text">Bit String</span>
+            <input type="text" class="form-control" id="bitstring">
+            <button class="btn btn-danger text-white" onclick="empty_input()"><i class="fas fa-times"></i></button>
+            <button class="btn btn-primary" onclick="decode_bits()">Decode</button>
+        </div>
+    </div>
 
         <div id="info-content" class="d-flex flex-wrap justify-content-center position-relative"></div>
 

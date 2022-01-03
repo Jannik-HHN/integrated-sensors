@@ -150,3 +150,7 @@ function create_card(element, section, timer) {
     }, timer);
     timeouts.push(timeout);
 }
+
+function empty_input() {
+    document.getElementById('bitstring').value = "";
+}
