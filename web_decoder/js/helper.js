@@ -65,3 +65,12 @@ function empty_input() {
             '<h1 class="display-6 fs-2">Enter a Bit String and hit <span class="fw-bold">Decode</span> to decode Standard Location Protocols</h1>' +
         '</div>'
 }
+
+function create_dictionary(val_from, val_to, val_options) {
+    var dict = {
+        from: val_from,
+        to: val_to,
+        options: val_options
+    }
+    return dict
+}

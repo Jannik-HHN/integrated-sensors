@@ -1,71 +1,19 @@
 var timeouts = [];
 
 var bit_template = {
-    bit_sync: {
-        from: 1,
-        to: 15,
-        options: options_bit_sync
-    },
-    frame_sync: {
-        from: 16,
-        to: 24,
-        options: options_frame_sync
-    },
-    format_flag: {
-        from: 25,
-        to: 25,
-        options: options_format_flag
-    },
-    protocol_flag: {
-        from: 26,
-        to: 26,
-        options: options_protocol_type
-    },
-    country_code: {
-        from: 27,
-        to: 36,
-        options: options_country_code
-    },
-    protocol_code: {
-        from: 37,
-        to: 40,
-        options: options_protocol_code
-    },
-    type_approval: {
-        from: 41,
-        to: 50,
-        options: convert_bits
-    },
-    serial_number: {
-        from: 51,
-        to: 64,
-        options: convert_bits
-    },
-    latitude_data_1: {
-        from: 65,
-        to: 74,
-        options: calculate_position
-    },
-    longitude_data_1: {
-        from: 75,
-        to: 85,
-        options: calculate_position
-    },
-    fixed_bits: {
-        from: 107,
-        to: 110,
-        options: options_fixed_bits
-    },
-    source_of_position: {
-        from: 111,
-        to: 111,
-        options: options_source_of_position
-    },
-    auxiliary_radio_locating_device_code: {
-        from: 112,
-        to: 112,
-        options: options_auxiliary_radio_locating_device_code
-    },
+    bit_sync: create_dictionary(1, 15, options_bit_sync),
+    frame_sync: create_dictionary(16, 24, options_frame_sync),
+    format_flag: create_dictionary(25, 25, options_format_flag),
+    protocol_flag: create_dictionary(26, 26, options_protocol_type),
+    country_code: create_dictionary(27, 36, options_country_code),
+    protocol_code: create_dictionary(37, 40, options_protocol_code),
+    type_approval: create_dictionary(41, 50, convert_bits),
+    serial_number: create_dictionary(51, 64, convert_bits),
+    latitude_data_1: create_dictionary(65, 74, calculate_position),
+    longitude_data_1: create_dictionary(75, 85, calculate_position),
+    fixed_bits: create_dictionary(107, 110, options_fixed_bits),
+    source_of_position: create_dictionary(111, 111, options_source_of_position),
+    auxiliary_radio_locating_device_code: create_dictionary(112, 112, options_auxiliary_radio_locating_device_code),
 }
 
 var assigned_bits = {
