@@ -368,13 +368,3 @@ var options_icons = {
         text: "Invalid"
     }
 }
-
-var convert_bits = function bits_to_number(bit_pattern) {
-    return parseInt(bit_pattern, 2)
-}
-
-var calculate_position = function bits_to_position(bit_pattern, direction, default_value) {
-    if(bit_pattern == default_value) {
-        return "Default Position"
-    }
-}

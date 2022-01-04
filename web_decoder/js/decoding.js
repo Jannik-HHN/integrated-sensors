@@ -71,132 +71,128 @@ var bit_template = {
 var assigned_bits = {
     bit_sync: {
         name: "Bit Synchronization",
-        bits: "",
         fromTo: "Bits 1 - 15",
+        bits: "",
         option: "",
-        icon: ""
+        flag: ""
     },
     frame_sync: {
         name: "Frame Synchronization",
-        bits: "",
         fromTo: "Bits 16 - 24",
+        bits: "",
         option: "",
-        icon: ""
+        flag: ""
     },
     format_flag: {
         name: "Format Flag",
-        bits: "",
         fromTo: "Bit 25",
+        bits: "",
         option: "",
-        icon: ""
+        flag: ""
     },
     protocol_flag: {
         name: "Protocol Flag",
-        bits: "",
         fromTo: "Bit 26",
+        bits: "",
         option: "",
-        icon: ""
+        flag: ""
     },
     country_code: {
         name: "Country",
-        bits: "",
         fromTo: "Bits 27 - 36",
+        bits: "",
         option: "",
-        icon: ""
+        flag: ""
     },
     protocol_code: {
         name: "Protocol Code",
-        bits: "",
         fromTo: "Bits 37 - 40",
+        bits: "",
         option: "",
-        icon: ""
+        flag: ""
     },
     type_approval: {
         name: "Type Approval Certificate Number",
-        bits: "",
         fromTo: "Bits 41 - 50",
+        bits: "",
         option: "",
-        icon: ""
+        flag: ""
     },
     serial_number: {
         name: "Serial Number",
-        bits: "",
         fromTo: "Bits 51 - 64",
+        bits: "",
         option: "",
-        icon: ""
+        flag: ""
     },
     latitude_data_1: {
         name: "Latitude Position",
-        bits: "",
         fromTo: "Bits 65 - 74",
+        bits: "",
         option: "",
-        icon: "",
+        flag: "",
         default_value: "0111111111",
         direction: "latitude"
     },
     longitude_data_1: {
         name: "Longitude Position",
-        bits: "",
         fromTo: "Bits 75 - 85",
+        bits: "",
         option: "",
-        icon: "",
+        flag: "",
         default_value: "01111111111",
         direction: "longitude"
     },
     fixed_bits: {
         name: "Fixed Bits",
-        bits: "",
         fromTo: "Bits 107 - 110",
+        bits: "",
         option: "",
-        icon: ""
+        flag: ""
     },
     source_of_position: {
         name: "Source of Position",
-        bits: "",
         fromTo: "Bit 111",
+        bits: "",
         option: "",
-        icon: ""
+        flag: ""
     },
     auxiliary_radio_locating_device_code: {
         name: "121.5 MHz Auxiliary Radio Locating Device",
-        bits: "",
         fromTo: "Bit 112",
+        bits: "",
         option: "",
-        icon: ""
+        flag: ""
     },
 }
 
 function decode_bits() {
-    for(var timeout of timeouts) {
-        clearTimeout(timeout)
-    }
+    // Clear all pending Timers that havent finished from Card Animation
+    timeouts.forEach(timeout => clearTimeout(timeout))
     timeouts = []
 
-    var bitString = document.getElementById('bitstring').value
-    bitString = bitString.replace(/\s+/g, '');
-    document.getElementById('bitstring').value = bitString;
-    var counter = 1;
+    // Get the Container and Input, remove whitespace and replace the input
+    var card_container = document.getElementById("info-content");
+    var input = document.getElementById('bitstring')
+    var bitString = input.value.replace(/\s+/g, '')
+    input.value = bitString;
 
-    var content = document.getElementById("info-content");
-
-    if(bitString.length != 144 || bitString.charAt(25) != "0" || check_for_option(bitString.substring(bit_template["protocol_code"].from - 1, bit_template["protocol_code"].to), bit_template["protocol_code"]["options"]) == null) {
-        content.innerHTML =
-        '<div class="hint text-center mx-5 bit-content position-relative text-danger">' + 
-            '<h1 class="display-6"><span class="fw-bold">Uh oh...</span></h1>' + 
-            '<h1 class="display-6 fs-2">It looks like this Protocol is <span class="fw-bold">not supported</span>. The ELT Decoder only supports Serial Standard Location Protocols.</h1>'
-        '</div>'
+    // Display Error, if Bit String doesnt use correct Protocol
+    if(!check_for_valid_bitstring(bitString)) {
+        card_container.innerHTML =
+            '<div class="hint text-center mx-5 bit-content position-relative text-danger">' + 
+                '<h1 class="display-6"><span class="fw-bold">Uh oh...</span></h1>' + 
+                '<h1 class="display-6 fs-2">It looks like this Protocol is <span class="fw-bold">not supported</span>. The ELT Decoder only supports Serial Standard Location Protocols.</h1>'
+            '</div>'
         return;
     }
 
+    // Extract Hex-ID
     var hexString = bitString.substring(25, 64) + "011111111101111111111"
-    var hexDecoded = ""
-    for(var i = 0; i < hexString.length; i+=4) {
-        if(i%20 == 0) hexDecoded += " "
-        hexDecoded += (parseInt(hexString.substring(i, i+4), 2).toString(16)).toUpperCase()
-    }
-    hexDecoded.trim()
+    var hexDecoded = convert_bits_to_hex(hexString)
 
-    content.innerHTML =
+    // Display the Hex-ID on screen
+    card_container.innerHTML =
         '<div class="bit-content d-flex flex-wrap justify-content-center position-relative w-100">' +
             '<div class="hint text-center mx-5 mb-3">' +
                 '<h1 class="display-6 fs-2 fw-bold">Beacon Identification</h1>' +
@@ -204,38 +200,28 @@ function decode_bits() {
             '</div>' +
         '</div>'
 
+    // Assign the Bit Patterns and display the info on screen
+    var counter = 1;
     for(var key in bit_template) {
-        assigned_bits[key]["icon"] = options_icons["valid"]
+        assigned_bits[key]["flag"] = options_icons.valid
         assigned_bits[key]["bits"] = bitString.substring(bit_template[key].from - 1, bit_template[key].to)
         
         if(bit_template[key]["options"]) {
             assigned_bits[key]["option"] = check_for_option(assigned_bits[key]["bits"], bit_template[key]["options"])
             if(assigned_bits[key]["option"] == null) {
                 assigned_bits[key]["option"] = "Invalid"
-                assigned_bits[key]["icon"] = options_icons["invalid"]
+                assigned_bits[key]["flag"] = options_icons.invalid
             }
         }
         else if(bit_template[key]["transform"]) {
             assigned_bits[key]["option"] = bit_template[key]["transform"](assigned_bits[key]["bits"], assigned_bits[key]["direction"], assigned_bits[key]["default_value"])
             if(assigned_bits[key]["option"] == "Default Position") {
-                assigned_bits[key]["icon"] = options_icons["warning"]
+                assigned_bits[key]["flag"] = options_icons.warning
             }
         }
-        create_card(content, assigned_bits[key], key, counter*150)
+        create_card(card_container, assigned_bits[key], key, counter*150)
         counter++;
     }
-}
-
-function check_for_option(bitString, options) {
-    if(options[bitString]) {
-        return options[bitString]
-    }
-    return null
-}
-
-function select_bits(from, to) {
-    document.getElementById('bitstring').focus();
-    document.getElementById('bitstring').setSelectionRange(from, to);
 }
 
 function create_card(element, section, key, timer) {
@@ -249,12 +235,12 @@ function create_card(element, section, key, timer) {
             '<div class="bit-content shadow position-relative row g-0 round" onclick="select_bits(' + (bit_template[key].from - 1) + ',' + bit_template[key].to + ')">' + 
                 '<div class="col-3 d-flex justify-content-center shadow round-start">' + 
                     '<div class="align-self-center d-flex flex-column">' + 
-                        '<i class="fas icon ' + section["icon"]["icon"]  + '"></i>' + 
-                        '<span class="badge mt-3 ' + section["icon"]["badge"]  + '">' + section["icon"]["text"]  + '</span>' +
+                        '<i class="fas icon ' + section.flag.icon  + '"></i>' + 
+                        '<span class="badge mt-3 ' + section.flag.badge  + '">' + section.flag.text  + '</span>' +
                     '</div>' + 
                 '</div>' + 
             '<div class="col-9">' + 
-                '<div class="card-header fw-bold round-top-right text-center ' + section["icon"]["badge"]  + '">' + section["name"] + '</div>' + 
+                '<div class="card-header fw-bold round-top-right text-center ' + section.flag.badge  + '">' + section["name"] + '</div>' + 
                     '<div class="card-body">' + 
                         '<h5 class="card-title fw-light">' + (section['option'] ? section['option'] : 'Valid') + '</h5>' + 
                         '<p class="card-text"><small class="text-muted">' + section["fromTo"] + '</small></p>' + 
@@ -264,13 +250,4 @@ function create_card(element, section, key, timer) {
             '</div>'
     }, timer);
     timeouts.push(timeout);
-}
-
-function empty_input() {
-    document.getElementById('bitstring').value = "";
-    var content = document.getElementById("info-content");
-    content.innerHTML = 
-    '<div class="hint text-center mx-5 bit-content position-relative">' + 
-        '<h1 class="display-6 fs-2">Enter a Bit String and hit <span class="fw-bold">Decode</span> to decode Standard Location Protocols</h1>' + 
-    '</div>'
 }
