@@ -28,18 +28,15 @@ var calculate_position = function bits_to_position(section) {
 
 // Check for the correspondig Value of the Bit Pattern in the provided Bit Pattern Options
 function check_for_option(section, options) {
-    console.log(options)
     var bitString = section.bits
-    console.log(options instanceof Function)
     if(options instanceof Function) {
         return options(section)
     }
-    else if(options instanceof Object) {
-        if (options[bitString]) return options[bitString]
+    if(options instanceof Object) {
+        if(options[bitString]) return options[bitString]
+        else section["flag"] = options_flags.invalid
     }
-
-    // Return null if no option for the bit pattern exists
-    return null
+    return undefined
 }
 
 // Checks if the Bit String is valid and uses the correct Protocol for Decoding

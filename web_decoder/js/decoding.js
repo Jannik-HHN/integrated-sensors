@@ -205,14 +205,8 @@ function decode_bits() {
     for(var key in bit_template) {
         assigned_bits[key]["flag"] = options_flags.valid
         assigned_bits[key]["bits"] = bitString.substring(bit_template[key].from - 1, bit_template[key].to)
-        
-        if(bit_template[key]["options"]) {
-            assigned_bits[key]["option"] = check_for_option(assigned_bits[key], bit_template[key]["options"])
-            if(assigned_bits[key]["option"] == null) {
-                assigned_bits[key]["option"] = "Invalid"
-                assigned_bits[key]["flag"] = options_flags.invalid
-            }
-        }
+        assigned_bits[key]["option"] = check_for_option(assigned_bits[key], bit_template[key]["options"])
+
         create_card(card_container, assigned_bits[key], key, counter*150)
         counter++;
     }
@@ -236,7 +230,7 @@ function create_card(element, section, key, timer) {
             '<div class="col-9">' + 
                 '<div class="card-header fw-bold round-top-right text-center ' + section.flag.badge  + '">' + section["name"] + '</div>' + 
                     '<div class="card-body">' + 
-                        '<h5 class="card-title fw-light">' + (section['option'] ? section['option'] : 'Valid') + '</h5>' + 
+                        '<h5 class="card-title fw-light">' + (section['option'] ? section['option'] : section['flag'].text) + '</h5>' + 
                         '<p class="card-text"><small class="text-muted">' + section["fromTo"] + '</small></p>' + 
                     '</div>' + 
                     '<div class="card-footer text-muted round-bottom-right">Bit Pattern: ' + section["bits"] + '</div>' + 
