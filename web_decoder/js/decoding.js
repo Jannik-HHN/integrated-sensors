@@ -34,22 +34,22 @@ var bit_template = {
     type_approval: {
         from: 41,
         to: 50,
-        transform: convert_bits
+        options: convert_bits
     },
     serial_number: {
         from: 51,
         to: 64,
-        transform: convert_bits
+        options: convert_bits
     },
     latitude_data_1: {
         from: 65,
         to: 74,
-        transform: calculate_position
+        options: calculate_position
     },
     longitude_data_1: {
         from: 75,
         to: 85,
-        transform: calculate_position
+        options: calculate_position
     },
     fixed_bits: {
         from: 107,
@@ -203,20 +203,14 @@ function decode_bits() {
     // Assign the Bit Patterns and display the info on screen
     var counter = 1;
     for(var key in bit_template) {
-        assigned_bits[key]["flag"] = options_icons.valid
+        assigned_bits[key]["flag"] = options_flags.valid
         assigned_bits[key]["bits"] = bitString.substring(bit_template[key].from - 1, bit_template[key].to)
         
         if(bit_template[key]["options"]) {
-            assigned_bits[key]["option"] = check_for_option(assigned_bits[key]["bits"], bit_template[key]["options"])
+            assigned_bits[key]["option"] = check_for_option(assigned_bits[key], bit_template[key]["options"])
             if(assigned_bits[key]["option"] == null) {
                 assigned_bits[key]["option"] = "Invalid"
-                assigned_bits[key]["flag"] = options_icons.invalid
-            }
-        }
-        else if(bit_template[key]["transform"]) {
-            assigned_bits[key]["option"] = bit_template[key]["transform"](assigned_bits[key]["bits"], assigned_bits[key]["direction"], assigned_bits[key]["default_value"])
-            if(assigned_bits[key]["option"] == "Default Position") {
-                assigned_bits[key]["flag"] = options_icons.warning
+                assigned_bits[key]["flag"] = options_flags.invalid
             }
         }
         create_card(card_container, assigned_bits[key], key, counter*150)

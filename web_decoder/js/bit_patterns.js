@@ -351,7 +351,7 @@ var options_auxiliary_radio_locating_device_code = {  // Bit 112
 
 //
 
-var options_icons = {
+var options_flags = {
     "valid": {
         icon: "fa-check-circle text-success",
         badge: "bg-success text-white",

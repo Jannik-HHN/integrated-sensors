@@ -1,5 +1,6 @@
 // Convert Bits to Number
-var convert_bits = function bits_to_number(bit_pattern) {
+var convert_bits = function bits_to_number(section) {
+    var bit_pattern = section["bits"]
     return parseInt(bit_pattern, 2)
 }
 
@@ -14,17 +15,29 @@ var convert_bits_to_hex = function bits_to_hex(bit_pattern) {
 }
 
 // Convert Bits to Position Data
-var calculate_position = function bits_to_position(bit_pattern, direction, default_value) {
+var calculate_position = function bits_to_position(section) {
+    var bit_pattern = section["bits"]
+    var direction = section["direction"]
+    var default_value = section["default_value"]
+
     if (bit_pattern == default_value) {
+        section["flag"] = options_flags.warning
         return "Default Position"
     }
 }
 
 // Check for the correspondig Value of the Bit Pattern in the provided Bit Pattern Options
-function check_for_option(bitString, options) {
-    if (options[bitString]) {
-        return options[bitString]
+function check_for_option(section, options) {
+    console.log(options)
+    var bitString = section.bits
+    console.log(options instanceof Function)
+    if(options instanceof Function) {
+        return options(section)
     }
+    else if(options instanceof Object) {
+        if (options[bitString]) return options[bitString]
+    }
+
     // Return null if no option for the bit pattern exists
     return null
 }
@@ -36,7 +49,7 @@ function check_for_valid_bitstring(bitString) {
         return false;
     if (bitString.charAt(25) != "0")
         return false;
-    if (check_for_option(bitString.substring(protocol.from - 1, protocol.to), protocol.options) == null)
+    if (!protocol.options[bitString.substring(protocol.from - 1, protocol.to)])
         return false;
     return true;
 }
