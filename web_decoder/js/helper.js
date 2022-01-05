@@ -41,7 +41,7 @@ function check_for_option(section, options) {
 
 // Checks if the Bit String is valid and uses the correct Protocol for Decoding
 function check_for_valid_bitstring(bitString) {
-    var protocol = bit_template.protocol_code;
+    var protocol = bit_sections.protocol_code;
     if (bitString.length != 144)
         return false;
     if (bitString.charAt(25) != "0")
@@ -66,11 +66,6 @@ function empty_input() {
         '</div>'
 }
 
-function create_dictionary(val_from, val_to, val_options) {
-    var dict = {
-        from: val_from,
-        to: val_to,
-        options: val_options
-    }
-    return dict
+function create_from_to_string(val_from, val_to) {
+    return (val_from == val_to) ? ("Bit " + val_from) : ("Bits " + val_from + " - " + val_to)
 }

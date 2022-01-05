@@ -37,7 +37,7 @@ public class Main {
       framesRead = wavFile.readFrames(bufferData, samplesPerMs * dataInMs);
 
       // Create a 10ms carrier instance that loops perfectly
-      int[] bufferCarrierInstance = Arrays.copyOfRange(bufferCarrier, bufferCarrier.length - (10 * samplesPerMs + 1835), bufferCarrier.length - 1835);
+      int[] bufferCarrierInstance = Arrays.copyOfRange(bufferCarrier, bufferCarrier.length - (10 * samplesPerMs + 60000), bufferCarrier.length - 60000);
       // int[] bufferCarrierInstance = Arrays.copyOfRange(bufferCarrier, 0, 20000);
 
       int bufferCounter = 0;
@@ -54,11 +54,14 @@ public class Main {
         for (int s = (totalBits-1) * 5000; s < totalBits * 5000; s++) {
           int blockDiff = 0;
           blockDiff = Math.max(bufferData[s], bufferCarrierInstance[bufferCounter % bufferCarrierInstance.length]) - Math.min(bufferData[s], bufferCarrierInstance[bufferCounter % bufferCarrierInstance.length]);
+          //System.out.println((blockDiff));
           //blockDiff = Math.abs(bufferData[s]) - Math.abs(bufferCarrierInstance[bufferCounter % bufferCarrierInstance.length]);
           if (s%5000 < (samplesPerBit / 2)) {
             totalBlockDiff[0] += (double) blockDiff * 0.00001;
+            // if (blockDiff < 1500) totalBlockDiff[0]++;
           } else {
             totalBlockDiff[1] += (double) blockDiff * 0.00001;
+            // if (blockDiff < 1500) totalBlockDiff[1]++;
           }
           bufferCounter++;
         }

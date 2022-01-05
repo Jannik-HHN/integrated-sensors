@@ -1,116 +1,93 @@
 var timeouts = [];
 
-var bit_template = {
-    bit_sync: create_dictionary(1, 15, options_bit_sync),
-    frame_sync: create_dictionary(16, 24, options_frame_sync),
-    format_flag: create_dictionary(25, 25, options_format_flag),
-    protocol_flag: create_dictionary(26, 26, options_protocol_type),
-    country_code: create_dictionary(27, 36, options_country_code),
-    protocol_code: create_dictionary(37, 40, options_protocol_code),
-    type_approval: create_dictionary(41, 50, convert_bits),
-    serial_number: create_dictionary(51, 64, convert_bits),
-    latitude_data_1: create_dictionary(65, 74, calculate_position),
-    longitude_data_1: create_dictionary(75, 85, calculate_position),
-    fixed_bits: create_dictionary(107, 110, options_fixed_bits),
-    source_of_position: create_dictionary(111, 111, options_source_of_position),
-    auxiliary_radio_locating_device_code: create_dictionary(112, 112, options_auxiliary_radio_locating_device_code),
-}
-
-var assigned_bits = {
+var bit_sections = {
     bit_sync: {
         name: "Bit Synchronization",
-        fromTo: "Bits 1 - 15",
-        bits: "",
-        option: "",
-        flag: ""
+        from: 1,
+        to: 15,
+        options: options_bit_sync
     },
     frame_sync: {
         name: "Frame Synchronization",
-        fromTo: "Bits 16 - 24",
-        bits: "",
-        option: "",
-        flag: ""
+        from: 16,
+        to: 24,
+        options: options_frame_sync
     },
     format_flag: {
         name: "Format Flag",
-        fromTo: "Bit 25",
-        bits: "",
-        option: "",
-        flag: ""
+        from: 25,
+        to: 25,
+        options: options_format_flag
     },
     protocol_flag: {
         name: "Protocol Flag",
-        fromTo: "Bit 26",
-        bits: "",
-        option: "",
-        flag: ""
+        from: 26,
+        to: 26,
+        options: options_protocol_type
     },
     country_code: {
         name: "Country",
-        fromTo: "Bits 27 - 36",
-        bits: "",
-        option: "",
-        flag: ""
+        from: 27,
+        to: 36,
+        options: options_country_code
     },
     protocol_code: {
         name: "Protocol Code",
-        fromTo: "Bits 37 - 40",
-        bits: "",
-        option: "",
-        flag: ""
+        from: 37,
+        to: 40,
+        options: options_protocol_code
     },
     type_approval: {
         name: "Type Approval Certificate Number",
-        fromTo: "Bits 41 - 50",
-        bits: "",
-        option: "",
-        flag: ""
+        from: 41,
+        to: 50,
+        options: convert_bits
     },
     serial_number: {
         name: "Serial Number",
-        fromTo: "Bits 51 - 64",
-        bits: "",
-        option: "",
-        flag: ""
+        from: 51,
+        to: 64,
+        options: convert_bits
     },
     latitude_data_1: {
         name: "Latitude Position",
-        fromTo: "Bits 65 - 74",
-        bits: "",
-        option: "",
-        flag: "",
+        from: 65,
+        to: 74,
+        options: calculate_position,
         default_value: "0111111111",
         direction: "latitude"
     },
     longitude_data_1: {
         name: "Longitude Position",
-        fromTo: "Bits 75 - 85",
-        bits: "",
-        option: "",
-        flag: "",
+        from: 75,
+        to: 85,
+        options: calculate_position,
         default_value: "01111111111",
         direction: "longitude"
     },
+    bch_1: {
+        name: "BCH-1 Error Correcting Code",
+        from: 86,
+        to: 106,
+        options: undefined
+    },
     fixed_bits: {
         name: "Fixed Bits",
-        fromTo: "Bits 107 - 110",
-        bits: "",
-        option: "",
-        flag: ""
+        from: 107,
+        to: 110,
+        options: options_fixed_bits
     },
     source_of_position: {
         name: "Source of Position",
-        fromTo: "Bit 111",
-        bits: "",
-        option: "",
-        flag: ""
+        from: 111,
+        to: 111,
+        options: options_source_of_position
     },
     auxiliary_radio_locating_device_code: {
         name: "121.5 MHz Auxiliary Radio Locating Device",
-        fromTo: "Bit 112",
-        bits: "",
-        option: "",
-        flag: ""
+        from: 112,
+        to: 112,
+        options: options_auxiliary_radio_locating_device_code
     },
 }
 
@@ -148,14 +125,15 @@ function decode_bits() {
             '</div>' +
         '</div>'
 
-    // Assign the Bit Patterns and display the info on screen
+    // Assign the Information and display the info on screen
     var counter = 1;
-    for(var key in bit_template) {
-        assigned_bits[key]["flag"] = options_flags.valid
-        assigned_bits[key]["bits"] = bitString.substring(bit_template[key].from - 1, bit_template[key].to)
-        assigned_bits[key]["option"] = check_for_option(assigned_bits[key], bit_template[key]["options"])
+    for(var key in bit_sections) {
+        bit_sections[key]["flag"] = options_flags.valid
+        bit_sections[key]["bits"] = bitString.substring(bit_sections[key].from - 1, bit_sections[key].to)
+        bit_sections[key]["fromTo"] = create_from_to_string(bit_sections[key].from, bit_sections[key].to)
+        bit_sections[key]["value"] = check_for_option(bit_sections[key], bit_sections[key]["options"])
 
-        create_card(card_container, assigned_bits[key], key, counter*150)
+        create_card(card_container, bit_sections[key], key, counter*150)
         counter++;
     }
 }
@@ -168,7 +146,7 @@ function create_card(element, section, key, timer) {
 
     var timeout = setTimeout(() => {
         newDiv.innerHTML =
-            '<div class="bit-content shadow position-relative row g-0 round" onclick="select_bits(' + (bit_template[key].from - 1) + ',' + bit_template[key].to + ')">' + 
+            '<div class="bit-content shadow position-relative row g-0 round" onclick="select_bits(' + (bit_sections[key].from - 1) + ',' + bit_sections[key].to + ')">' + 
                 '<div class="col-3 d-flex justify-content-center shadow round-start">' + 
                     '<div class="align-self-center d-flex flex-column">' + 
                         '<i class="fas icon ' + section.flag.icon  + '"></i>' + 
@@ -178,7 +156,7 @@ function create_card(element, section, key, timer) {
             '<div class="col-9">' + 
                 '<div class="card-header fw-bold round-top-right text-center ' + section.flag.badge  + '">' + section["name"] + '</div>' + 
                     '<div class="card-body">' + 
-                        '<h5 class="card-title fw-light">' + (section['option'] ? section['option'] : section['flag'].text) + '</h5>' + 
+                        '<h5 class="card-title fw-light">' + (section['value'] ? section['value'] : section['flag'].text) + '</h5>' + 
                         '<p class="card-text"><small class="text-muted">' + section["fromTo"] + '</small></p>' + 
                     '</div>' + 
                     '<div class="card-footer text-muted round-bottom-right">Bit Pattern: ' + section["bits"] + '</div>' + 
