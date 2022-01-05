@@ -41,35 +41,35 @@ var bit_sections = {
         name: "Type Approval Certificate Number",
         from: 41,
         to: 50,
-        options: convert_bits
+        options: convert_bits_to_number
     },
     serial_number: {
         name: "Serial Number",
         from: 51,
         to: 64,
-        options: convert_bits
+        options: convert_bits_to_number
     },
-    latitude_data_1: {
-        name: "Latitude Position",
+    latitude_coarse: {
+        name: "Coarse Latitude Position",
         from: 65,
         to: 74,
         options: calculate_position,
-        default_value: "0111111111",
-        direction: "latitude"
+        accuracy: "coarse",
+        orientation: "latitude"
     },
-    longitude_data_1: {
-        name: "Longitude Position",
+    longitude_coarse: {
+        name: "Coarse Longitude Position",
         from: 75,
         to: 85,
         options: calculate_position,
-        default_value: "01111111111",
-        direction: "longitude"
+        accuracy: "coarse",
+        orientation: "longitude"
     },
     bch_1: {
-        name: "Error Correcting Code",
+        name: "BCH-1 Error Correcting Code",
         from: 86,
         to: 106,
-        options: "BCH-1"
+        options: undefined
     },
     fixed_bits: {
         name: "Fixed Bits",
@@ -89,11 +89,27 @@ var bit_sections = {
         to: 112,
         options: options_auxiliary_radio_locating_device_code
     },
+    latitude_offset: {
+        name: "Offset Latitude Position",
+        from: 113,
+        to: 122,
+        options: calculate_position,
+        accuracy: "offset",
+        orientation: "latitude"
+    },
+    longitude_offset: {
+        name: "Offset Longitude Position",
+        from: 123,
+        to: 132,
+        options: calculate_position,
+        accuracy: "offset",
+        orientation: "longitude"
+    },
     bch_2: {
-        name: "Error Correcting Code",
+        name: "BCH-2 Error Correcting Code",
         from: 133,
         to: 144,
-        options: "BCH-2"
+        options: undefined
     },
 }
 

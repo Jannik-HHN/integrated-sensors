@@ -1,10 +1,10 @@
 // Convert Bits to Number
-var convert_bits = function bits_to_number(section) {
+var convert_bits_to_number = function bits_to_number(section) {
     var bit_pattern = section["bits"]
     return parseInt(bit_pattern, 2)
 }
 
-// Convert Bits to Number
+// Convert Bits to Hex
 var convert_bits_to_hex = function bits_to_hex(bit_pattern) {
     var hex_decoded = ""
     for (var i = 0; i < bit_pattern.length; i += 4) {
@@ -17,13 +17,39 @@ var convert_bits_to_hex = function bits_to_hex(bit_pattern) {
 // Convert Bits to Position Data
 var calculate_position = function bits_to_position(section) {
     var bit_pattern = section["bits"]
-    var direction = section["direction"]
-    var default_value = section["default_value"]
+    var orientation = section["orientation"]
+    var accuracy = section["accuracy"]
+    var direction_section = options_direction[accuracy][orientation]
+    var direction = direction_section[bit_pattern.charAt(0)]
+    var position_deg, position_min, position_sec
 
-    if (bit_pattern == default_value) {
+    if (bit_pattern == direction_section["default"]) {
         section["flag"] = options_flags.warning
         return "Default Position"
     }
+
+    if(accuracy == "coarse") {
+        position_deg = parseInt(bit_pattern.substring(1), 2) * options_position_increments["degrees"]
+        if(position_deg > direction_section["max"]) {
+            section["flag"] = options_flags.invalid
+            return
+        }
+        return section["option"] = position_deg + "° " + direction
+    }
+
+    if(accuracy == "offset") {
+        position_min = parseInt(bit_pattern.substring(1, 6), 2) * options_position_increments["minutes"]    // 0-30 min
+        position_sec = parseInt(bit_pattern.substring(6), 2) * options_position_increments["seconds"]       // 0-56 min
+
+        if(position_min > 30 || position_sec > 56) {
+            section["flag"] = options_flags.invalid
+            return
+        }
+
+        return section["option"] = direction + position_min + "' " + position_sec + "\" "
+    }
+
+    console.log(position)
 }
 
 // Check for the correspondig Value of the Bit Pattern in the provided Bit Pattern Options
@@ -72,3 +98,12 @@ function empty_input() {
 function create_from_to_string(val_from, val_to) {
     return (val_from == val_to) ? ("Bit " + val_from) : ("Bits " + val_from + " - " + val_to)
 }
+
+// 0111111111    01111111111
+// 0001111111 (127) = 31,75   01100111111 (831) =207,75
+
+// 1 degree = 60 minutes
+// 1 minute = 60 seconds
+// degree (°), minute ('), seconds (")
+// Latitude  [ -90; +90]
+// Longitude [-180; 180]

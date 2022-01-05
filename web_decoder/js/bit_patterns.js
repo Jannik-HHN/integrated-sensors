@@ -368,3 +368,38 @@ var options_flags = {
         text: "Invalid"
     }
 }
+
+var options_direction = {
+    "coarse": {
+        "longitude": {
+            "0": "East",
+            "1": "West",
+            "default": "01111111111",
+            "max": 180
+        },
+        "latitude": {
+            "0": "North",
+            "1": "South",
+            "default": "0111111111",
+            "max": 90
+        }
+    },
+    "offset": {
+        "longitude": {
+            "0": "-",
+            "1": "+",
+            "default": "1000001111"
+        },
+        "latitude": {
+            "0": "-",
+            "1": "+",
+            "default": "1000001111"
+        }
+    }
+}
+
+var options_position_increments = {
+    "degrees": 0.25,
+    "minutes": 1,
+    "seconds": 4
+}
