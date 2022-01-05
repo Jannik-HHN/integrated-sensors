@@ -69,7 +69,8 @@ var bit_sections = {
         name: "BCH-1 Error Correcting Code",
         from: 86,
         to: 106,
-        options: undefined
+        options: calculate_bch,
+        details: options_bch["bch1"]
     },
     fixed_bits: {
         name: "Fixed Bits",
@@ -109,7 +110,8 @@ var bit_sections = {
         name: "BCH-2 Error Correcting Code",
         from: 133,
         to: 144,
-        options: undefined
+        options: calculate_bch,
+        details: options_bch["bch2"]
     },
 }
 

@@ -403,3 +403,16 @@ var options_position_increments = {
     "minutes": 1,
     "seconds": 4
 }
+
+var options_bch = {
+    "bch1": {
+        generator: "1001101101100111100011",
+        from: 25,
+        to: 106
+    },
+    "bch2": {
+        generator: "1010100111001",
+        from: 107,
+        to: 144
+    }
+}

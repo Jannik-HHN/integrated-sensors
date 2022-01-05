@@ -107,3 +107,41 @@ function create_from_to_string(val_from, val_to) {
 // degree (°), minute ('), seconds (")
 // Latitude  [ -90; +90]
 // Longitude [-180; 180]
+
+function xor(a, b) {
+    return (a == b) ? '0' : '1'
+}
+
+var calculate_bch = function modulo2div(section) {
+    var bits = document.getElementById('bitstring').value.substring(section["details"].from - 1, section["details"].to)
+    var generator = section["details"].generator
+    var bits_len = bits.length
+    var generator_len = generator.length
+
+    var divident = []
+    var remainder = [];
+
+    for (var i = 0; i < generator_len; i++)
+        remainder[i] = bits[i];
+
+    for (var j = generator_len; j <= bits_len; j++) {
+        // Remainder of previous step is Divident of current step
+        for (var i = 0; i < generator_len; i++)
+            divident[i] = remainder[i];
+
+        // If first bit of remainder is 0 then shift the remainder by 1 bit
+        if (remainder[0] == '0') {
+            for (var i = 0; i < generator_len - 1; i++)
+                remainder[i] = divident[i + 1];
+        }
+        // Else XOR the divident with generator polynomial
+        else {
+            for (var i = 0; i < generator_len - 1; i++)
+                remainder[i] = xor(divident[i + 1], generator[i + 1]);
+        }
+
+        // Append next bit of data to remainder
+        remainder[generator_len - 1] = bits[j];
+    }
+    return (remainder.join(""))
+}
