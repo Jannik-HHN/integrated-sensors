@@ -143,5 +143,11 @@ var calculate_bch = function modulo2div(section) {
         // Append next bit of data to remainder
         remainder[generator_len - 1] = bits[j];
     }
-    return (remainder.join(""))
+
+    var bch_decoded = remainder.join("")
+    if((bch_decoded.match(/1/g) || []).length > 0) {
+        section["flag"] = options_flags.warning
+    }
+    
+    return bch_decoded
 }
