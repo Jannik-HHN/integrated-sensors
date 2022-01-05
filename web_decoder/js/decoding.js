@@ -66,10 +66,10 @@ var bit_sections = {
         direction: "longitude"
     },
     bch_1: {
-        name: "BCH-1 Error Correcting Code",
+        name: "Error Correcting Code",
         from: 86,
         to: 106,
-        options: undefined
+        options: "BCH-1"
     },
     fixed_bits: {
         name: "Fixed Bits",
@@ -88,6 +88,12 @@ var bit_sections = {
         from: 112,
         to: 112,
         options: options_auxiliary_radio_locating_device_code
+    },
+    bch_2: {
+        name: "Error Correcting Code",
+        from: 133,
+        to: 144,
+        options: "BCH-2"
     },
 }
 

@@ -29,6 +29,9 @@ var calculate_position = function bits_to_position(section) {
 // Check for the correspondig Value of the Bit Pattern in the provided Bit Pattern Options
 function check_for_option(section, options) {
     var bitString = section.bits
+    if(typeof options == "string") {
+        return options
+    }
     if(options instanceof Function) {
         return options(section)
     }
