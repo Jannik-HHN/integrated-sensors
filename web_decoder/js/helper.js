@@ -147,7 +147,8 @@ var calculate_bch = function modulo2div(section) {
     var bch_decoded = remainder.join("")
     if((bch_decoded.match(/1/g) || []).length > 0) {
         section["flag"] = options_flags.warning
+        return "This PDF has Bit Errors"
     }
     
-    return bch_decoded
+    return "No Bit Errors in this PDF"
 }

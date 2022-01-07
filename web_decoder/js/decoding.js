@@ -157,6 +157,14 @@ function decode_bits() {
         bit_sections[key]["fromTo"] = create_from_to_string(bit_sections[key].from, bit_sections[key].to)
         bit_sections[key]["value"] = check_for_option(bit_sections[key], bit_sections[key]["options"])
 
+        if(bit_sections[key].from == 25) {
+            create_header(card_container, "Protected Data Field", "PDF-1", counter*150)
+            counter++;
+        }
+        if(bit_sections[key].from == 107) {
+            create_header(card_container, "Protected Data Field", "PDF-2", counter*150)
+            counter++;
+        }
         create_card(card_container, bit_sections[key], key, counter*150)
         counter++;
     }
@@ -185,6 +193,25 @@ function create_card(element, section, key, timer) {
                     '</div>' + 
                     '<div class="card-footer text-muted round-bottom-right">Bit Pattern: ' + section["bits"] + '</div>' + 
                 '</div>' + 
+            '</div>'
+    }, timer);
+    timeouts.push(timeout);
+}
+
+function create_header(element, title, subtitle, timer) {
+
+    var newDiv = document.createElement("div");
+    newDiv.classList.add("w-100", "mt-5")
+
+    element.appendChild(newDiv)
+
+    var timeout = setTimeout(() => {
+        newDiv.innerHTML =
+            '<div class="bit-content d-flex flex-wrap justify-content-center position-relative">' +
+                '<div class="hint text-center mx-5 mb-3">' +
+                    '<h1 class="display-6 fs-2 fw-bold">' + title + '</h1>' +
+                    '<h1 class="display-6 fs-3">' + subtitle + '</h1>' +
+                '</div>' +
             '</div>'
     }, timer);
     timeouts.push(timeout);
