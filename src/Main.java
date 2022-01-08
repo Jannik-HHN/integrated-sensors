@@ -1,6 +1,12 @@
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import wavfile.WavFile;
 
 public class Main {
@@ -44,6 +50,15 @@ public class Main {
       int totalBits = 0;                            // Current amount of Bits
       int bufferCounter = 0;                        // Current position inside the buffer
       double[] totalBlockDiff = new double[2];      // Left (0) and Right (1) side of a Bit compared
+
+      try {
+        String samples[] = Arrays.stream(bufferData).mapToObj(String::valueOf).toArray(String[]::new);
+        List<String> lines = Arrays.asList(samples);
+        Path file = Paths.get("elt-data.txt");
+        Files.write(file, lines, StandardCharsets.UTF_8);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
 
       do {
         totalBlockDiff[0] = 0;
