@@ -14,13 +14,12 @@ public class Main {
     int dataInMs = 360;
 
     try {
-      System.out.println("-----------------------------");
       // Open the wav file specified as the first argument
       WavFile wavFile = WavFile.openWavFile(new File("res/HackRF-110054-Mono.wav"));
 
       // Display information about the wav file
+      System.out.println("-----------------------------");
       wavFile.display();
-
       System.out.println("-----------------------------");
 
       // Get the number of audio channels in the wav file
@@ -35,9 +34,9 @@ public class Main {
       framesRead = wavFile.readFrames(bufferCarrier, samplesPerMs * carrierInMs);
       framesRead = wavFile.readFrames(bufferData, samplesPerMs * dataInMs);
 
-      // Create a 10ms carrier frequency buffer that loops perfectly
-      int[] bufferCarrierInstance = Arrays.copyOfRange(bufferCarrier, bufferCarrier.length - (10 * samplesPerMs + 1835), bufferCarrier.length - 1835);
-      // int[] bufferCarrierInstance = Arrays.copyOfRange(bufferCarrier, 0, 20000);
+      // Create a carrier frequency instance that loops perfectly
+      int[] bufferCarrierInstance = Arrays.copyOfRange(bufferCarrier, 1400, (int) 1973 + 1400);
+      //int[] bufferCarrierInstance = Arrays.copyOfRange(bufferCarrier, bufferCarrier.length - ((int) Math.round(70 * samplesPerMs) + 1835), bufferCarrier.length - 1835);
 
       String bitString = "";                        // The final Bit String
       int bits = (samplesPerMs * dataInMs) / 5000;  // Total Bits of Message regarding Sample Rate
@@ -77,8 +76,24 @@ public class Main {
       }
       while (totalBits < bits);
 
-      System.out.println(bitString);    // Print out complete Bit String
-      wavFile.close();                  // Close the Wav File
+      // Correct Bit String
+      String correctString = " 1111 1111 1111 1110 0010 1111 1000 1101 1010 0100 0011 0101 0011 0011 0110 1100 0111 1111 1101 1111 1111 1101 1111 1010 1011 1101 0111 0101 1000 0011 1110 0000 1111 1010 1010 1000";
+
+      // Print out the SHOULD and the IS bit string
+      System.out.println("----------------");
+      System.out.println("IST:  " + bitString);
+      System.out.println("SOLL: " + correctString);
+      System.out.println("----------------");
+
+      // Count Bit Errors by comparing IS and SHOULD bit strings
+      int bitErrors = 0;
+      for(int i = 0; i < bitString.length(); i++) {
+        if(bitString.charAt(i) != correctString.charAt(i)) bitErrors++;
+      }
+      System.out.println("Bit Errors: " + bitErrors);
+
+      // Close the Wav File
+      wavFile.close();
     }
     catch (Exception e) {
       System.err.println(e);
