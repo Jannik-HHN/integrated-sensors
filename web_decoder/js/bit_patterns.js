@@ -321,35 +321,19 @@ var options_protocol_code = {
     //"1100": "Ship Security"
 }
 
-// Position Data 15min Res (65-85) - 21 Bits
-
-
-// First BCH Code (86-106) - 21 Bits
-
-
-// Supplementary Data (107-112) - 6 Bits
-
 var options_fixed_bits = {
     "1101": "Valid"
 }
 
-var options_source_of_position = {      // Bit 111
+var options_source_of_position = {
     "0": "External Navigation Device",
     "1": "Internal Navigation Device"
 }
 
-var options_auxiliary_radio_locating_device_code = {  // Bit 112
+var options_auxiliary_radio_locating_device_code = {
     "0": "Not included in Beacon",
     "1": "Included in Beacon"
 }
-
-// Position Data 4sec Res (113-132) - 20 Bits
-
-
-// Second BCH Code (133-144) - 12 Bits
-
-
-//
 
 var options_flags = {
     "valid": {
